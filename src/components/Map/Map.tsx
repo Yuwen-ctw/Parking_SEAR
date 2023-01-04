@@ -1,4 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import LocationButton from './LocationButton/LocationButton'
 import styles from './Map.module.scss'
 import data from 'data/hcParkInfo.json'
 
@@ -32,6 +33,7 @@ function Map() {
         attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       />
       {dataList}
+      <LocationButton />
     </MapContainer>
   )
 }
