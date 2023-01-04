@@ -2,7 +2,6 @@ import { useMap, CircleMarker } from 'react-leaflet'
 import { useEffect, useState } from 'react'
 import L from 'leaflet'
 import locationSvg from 'assets/location.svg'
-import './LocationButton.scss'
 
 function LocationButton() {
   const map = useMap()
@@ -50,7 +49,7 @@ function LocationButton() {
     const Button = L.Control.extend({
       onAdd: function () {
         const button = L.DomUtil.create('button', 'leaflet-bar locationBtn')
-        button.innerHTML = `<img src=${locationSvg} class='locationSvg'/>`
+        button.innerHTML = `<img src=${locationSvg} style="width:30px;"/>`
         button.addEventListener('click', handleGetLocation)
         return button
       },
