@@ -4,6 +4,16 @@ import LocationButton from './LocationButton'
 import RestParkingButton from './RestParkingButton'
 import parkingIcon from './ParkingIcon'
 import getHsinChuParking from 'apis/hsinchuParking'
+import PopupContent from './PopupContent'
+
+const initialSetting = {
+  mapCenter: [24.809487, 120.974726] as L.LatLngExpression,
+  mapZoom: 13 as number,
+  tileLayerUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png' as string,
+  tileLayerAttribution:
+    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' as string,
+  tileLayerMaxZoom: 18 as number,
+}
 
 const iconColor = {
   green: '#198754',
@@ -41,10 +51,9 @@ function Map() {
           lng: Number(parking.Y_COORDINATE),
         }}
       >
-        <Popup autoClose={false}>
-          <>
-            <p>剩餘車位: {parking.FREESPACE}</p>
-          </>
+        {/* offset the position to the top of marker*/}
+        <Popup offset={[0, -25]} minWidth={280} closeButton={false}>
+          <PopupContent parking={parking} />
         </Popup>
       </Marker>
     )
@@ -66,14 +75,14 @@ function Map() {
   return (
     <>
       <MapContainer
-        center={[24.809487, 120.974726]}
-        zoom={13}
+        center={initialSetting.mapCenter}
+        zoom={initialSetting.mapZoom}
         className="container-fluid vh-100"
       >
         <TileLayer
-          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={18}
-          attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url={initialSetting.tileLayerUrl}
+          maxZoom={initialSetting.tileLayerMaxZoom}
+          attribution={initialSetting.tileLayerAttribution}
         />
         {parkingList}
         <LocationButton />

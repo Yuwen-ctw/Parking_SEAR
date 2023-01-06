@@ -9,7 +9,7 @@ function LocationButton() {
 
   function handleGetLocation(): void {
     if ('geolocation' in navigator) {
-      map.locate(getPositionOptions)
+      map.locate(getLocationOptions)
       map.on('locationfound', getLocationSuccess)
       map.on('locationerror', getLocationError)
     } else {
@@ -37,7 +37,7 @@ function LocationButton() {
     }
   }
 
-  const getPositionOptions: L.LocateOptions = {
+  const getLocationOptions: L.LocateOptions = {
     setView: false,
     watch: false,
     enableHighAccuracy: true,
