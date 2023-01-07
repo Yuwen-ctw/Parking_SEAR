@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import ReactLeafletGoogleLayer from 'react-leaflet-google-layer'
 import LocationButton from './LocationButton'
 import RestParkingButton from './RestParkingButton'
 import parkingIcon from './ParkingIcon'
 import getHsinChuParking from 'apis/hsinchuParking'
 import PopupContent from './PopupContent'
+import SearchPlaceBar from './SearchPlaceBar'
 
 const initialSetting = {
   mapCenter: [24.809487, 120.974726] as L.LatLngExpression,
@@ -84,7 +86,9 @@ function Map() {
           maxZoom={initialSetting.tileLayerMaxZoom}
           attribution={initialSetting.tileLayerAttribution}
         />
+        <ReactLeafletGoogleLayer useGoogMapsLoader={false} />
         {parkingList}
+        <SearchPlaceBar />
         <LocationButton />
         <RestParkingButton
           checked={showRestParkingLayer}
