@@ -1,10 +1,12 @@
+import L from 'leaflet'
 import { useState } from 'react'
-import { useMap, Marker } from 'react-leaflet'
+import { useMap } from 'react-leaflet'
 import GooglePlacesAutocomplete, {
   geocodeByPlaceId,
   getLatLng,
 } from 'react-google-places-autocomplete'
 import Control from 'lib/Control'
+import PlaceMarker from './CustomMarkers/PlaceMarker'
 
 function SearchPlaceBar() {
   const map = useMap()
@@ -18,13 +20,13 @@ function SearchPlaceBar() {
       .then((geocoderResult) => getLatLng(geocoderResult[0]))
       .then((latLng) => {
         setPlaceLatLng(latLng)
-        map.flyTo(latLng, 15, { duration: 0.5 })
+        map.flyTo(latLng, 16, { duration: 0.5 })
       })
       .catch((err) => console.log(err))
   }
   return (
     <>
-      <Control position="topright" containerKey="auto-complete">
+      <Control position="topright" containerKey="search-place-bar">
         <div style={{ minWidth: '300px' }}>
           <GooglePlacesAutocomplete
             autocompletionRequest={{ componentRestrictions: { country: 'TW' } }}
@@ -38,7 +40,7 @@ function SearchPlaceBar() {
           />
         </div>
       </Control>
-      {placeLatLng && <Marker position={placeLatLng} zIndexOffset={1000} />}
+      <PlaceMarker placeLatLng={placeLatLng} />
     </>
   )
 }

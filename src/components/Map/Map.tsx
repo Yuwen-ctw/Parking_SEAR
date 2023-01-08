@@ -7,6 +7,7 @@ import parkingIcon from './ParkingIcon'
 import getHsinChuParking from 'apis/hsinchuParking'
 import PopupContent from './PopupContent'
 import SearchPlaceBar from './SearchPlaceBar'
+import MarkerClusterGroup from 'react-leaflet-cluster'
 
 const initialSetting = {
   mapCenter: [24.809487, 120.974726] as L.LatLngExpression,
@@ -87,7 +88,15 @@ function Map() {
           attribution={initialSetting.tileLayerAttribution}
         />
         <ReactLeafletGoogleLayer useGoogMapsLoader={false} />
-        {parkingList}
+        <MarkerClusterGroup
+          chunkedLoading
+          maxClusterRadius={50}
+          showCoverageOnHover={true}
+          spiderfyOnMaxZoom={14}
+          disableClusteringAtZoom={16}
+        >
+          {parkingList}
+        </MarkerClusterGroup>
         <SearchPlaceBar />
         <LocationButton />
         <RestParkingButton
