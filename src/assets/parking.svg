@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg fill="#237cc9" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 width="30px" height="30px" viewBox="0 0 145 260" enable-background="new 0 0 145 260" xml:space="preserve">
-<path d="M72.5,2C33.56,2,2,33.56,2,72.5c0,9.77,2.027,21.524,5.58,30C23.98,141.617,72.5,258,72.5,258s48.52-116.258,64.92-155.375	C140.973,94.149,143,82.27,143,72.5C143,33.56,111.44,2,72.5,2z M72.5,105.05c-17.7,0-32.05-14.35-32.05-32.05
-	S54.8,40.95,72.5,40.95S104.55,55.3,104.55,73S90.2,105.05,72.5,105.05z" stroke="#222" stroke-width="4"/>
+<svg viewBox="318.442 10.401 93.172 103.269" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g transform="matrix(2.181907, 0, 0, 2.108075, -395.284546, -9.632825)" style="">
+    <image width="41" height="41" x="334.215" y="15.082" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAQAAAACach9AAACMUlEQVR4Ae3ShY7jQBAE0Aoz/f9/HTMzhg1zrdKUrJbdx+Kd2nD8VNudfsL/Th///dyQN2TH6f3y/BGpC379rV+S+qqetBOxImNQXL8JCAr2V4iMQXHGNJxeCfZXhSRBcQMfvkOWUdtfzlLgAENmZDcmo2TVmt8OSM2eXxBp3DjHSMFutqS7SbmemzBiR+xpKCNUIRkdkkYxhAkyGoBvyQFEJEefwSmmvBfJuJ6aKqKWnAkvGZOaZXTUgFqYULWNSHUckZuR1HIIimUExutRxwzOLROIG4vKmCKQt364mIlhSyzAf1m9lHZHJZrlAOMMztRRiKimp/rpdJDc9Awry5xTZCte7FHtuS8wJgeYGrex28xNTd086Dik7vUMscQOa8y4DoGtCCSkAKlNwpgNtphjrC6MIHUkR6YWxxs6Sc5xqn222mmCRFzIt8lEdKx+ikCtg91qS2WpwVfBelJCiQJwvzixfI9cxZQWgiSJelKnwBElKYtDOb2MFbhmUigbReQBV0Cg4+qMXSxXSyGUn4UbF8l+7qdSGnTC0XLCmahIgUHLhLOhpVCtw4CzYXvLQWQbJNmxoCsOKAxSgBJno75avolkRw8iIAFcsdc02e9iyCd8tHwmeSSoKTowIgvscSGZUOA7PuCN5b2BX9mQM7S0wYhMNU74zgsPBj3HU7wguAfnxxjFQGBE6pwN+GjME9zHY7zGp8wVxMShYX9NXvEWD3HbwJf4giO4CFIQxXScH1/TM+04kkBiAAAAAElFTkSuQmCC"/>
+    <path d="M 348.363 12.193 C 342.287 12.193 337.363 17.117 337.363 23.193 C 337.363 24.717 337.679 26.552 338.234 27.874 C 340.792 33.977 348.363 52.136 348.363 52.136 C 348.363 52.136 355.934 33.997 358.492 27.894 C 359.047 26.571 359.363 24.717 359.363 23.193 C 359.363 17.117 354.439 12.193 348.363 12.193 Z M 348.363 28.272 C 345.601 28.272 343.362 26.033 343.362 23.271 C 343.362 20.509 345.601 18.271 348.363 18.271 C 351.125 18.271 353.364 20.509 353.364 23.271 C 353.364 26.033 351.125 28.272 348.363 28.272 Z" stroke="#222" stroke-width="4" tabindex="0"/>
+    <ellipse style="fill: rgb(255, 255, 255); paint-order: stroke; stroke: rgb(255, 255, 255);" cx="348.349" cy="23.263" rx="2.567" ry="2.566"/>
+  </g>
 </svg>

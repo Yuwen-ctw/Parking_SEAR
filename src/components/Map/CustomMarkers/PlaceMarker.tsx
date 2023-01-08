@@ -10,7 +10,7 @@ interface PlaceMarkerProp {
 }
 
 const PlaceIcon = () => (
-  <Lottie animationData={placeIconAnimation} style={{ width: '50px' }} loop />
+  <Lottie animationData={placeIconAnimation} style={{ width: '65px' }} loop />
 )
 
 function PlaceMarker({ placeLatLng }: PlaceMarkerProp) {
@@ -39,7 +39,7 @@ function PlaceMarker({ placeLatLng }: PlaceMarkerProp) {
           html: ``,
           className: 'placeIcon',
           // iconAnchor attribute should fit the size of icon as possible
-          iconAnchor: [25, 27],
+          iconAnchor: [33, 44],
         })}
       />
     </>

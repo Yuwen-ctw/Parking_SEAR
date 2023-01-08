@@ -75,7 +75,7 @@ function PopupContent({ parking }: PopupContentProps) {
         <Row>
           <ColTitle>更新時間</ColTitle>
           <ColMuted>
-            {dayjs(parking.UPDATETIME).format('YYYY / MM / DD HH:mm')}
+            {dayjs(parking.UPDATETIME).format('YYYY / MM / DD HH:mm:ss ')}
           </ColMuted>
         </Row>
         <Row className="justify-content-center">
