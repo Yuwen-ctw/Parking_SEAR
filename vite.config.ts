@@ -7,7 +7,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default ({ mode }) => {
   const config = loadEnv(mode, './')
   return defineConfig({
-    base: './Parking_Searching/',
+    base: '/Parking_Searching/',
     plugins: [react(), svgr(), tsconfigPaths()],
     server: {
       port: Number(config.VITE_LOCALPORT),
