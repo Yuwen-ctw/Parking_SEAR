@@ -8,8 +8,9 @@ import GooglePlacesAutocomplete, {
 import Control from 'lib/Control'
 import PlaceMarker from './CustomMarkers/PlaceMarker'
 
-function SearchPlaceBar() {
+function SearchPlaceBar({ position }: { position: L.ControlPosition }) {
   const map = useMap()
+
   const [placeLatLng, setPlaceLatLng] = useState<L.LatLngExpression | null>(
     null
   )
@@ -26,7 +27,7 @@ function SearchPlaceBar() {
   }
   return (
     <>
-      <Control position="topright" containerKey="search-place-bar">
+      <Control position={position} containerKey="search-place-bar">
         <div style={{ minWidth: '300px' }}>
           <GooglePlacesAutocomplete
             autocompletionRequest={{ componentRestrictions: { country: 'TW' } }}

@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react'
-import { MapContainer, TileLayer } from 'react-leaflet'
+import {
+  MapContainer,
+  TileLayer,
+  LayersControl,
+  ZoomControl,
+} from 'react-leaflet'
 import ReactLeafletGoogleLayer from 'react-leaflet-google-layer'
+import MarkerClusterGroup from 'react-leaflet-cluster'
+import getHsinChuParking from 'apis/hsinchuParking'
+// components
 import SearchPlaceBar from './SearchPlaceBar'
 import LocationButton from './LocationButton'
 import RestParkingButton from './RestParkingButton'
 import ParkingMarker from './CustomMarkers/ParkingMarker'
-import MarkerClusterGroup from 'react-leaflet-cluster'
-import getHsinChuParking from 'apis/hsinchuParking'
 
 const initialSetting = {
   mapCenter: [24.809487, 120.974726] as L.LatLngExpression,
@@ -14,7 +20,7 @@ const initialSetting = {
   tileLayerUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png' as string,
   tileLayerAttribution:
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' as string,
-  tileLayerMaxZoom: 18 as number,
+  tileLayerMaxZoom: 19 as number,
 }
 
 function Map() {
@@ -47,44 +53,51 @@ function Map() {
   }
 
   return (
-    <>
-      <MapContainer
-        center={initialSetting.mapCenter}
-        zoom={initialSetting.mapZoom}
-        className="container-fluid vh-100"
+    <MapContainer
+      center={initialSetting.mapCenter}
+      zoom={initialSetting.mapZoom}
+      className="container-fluid vh-100"
+      zoomControl={false}
+    >
+      <TileLayer
+        url={initialSetting.tileLayerUrl}
+        maxZoom={initialSetting.tileLayerMaxZoom}
+        attribution={initialSetting.tileLayerAttribution}
+      />
+      <LayersControl position="bottomleft">
+        <LayersControl.Overlay name="GoogleMap">
+          <ReactLeafletGoogleLayer
+            useGoogMapsLoader={false}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore:next-line
+            maxZoom={initialSetting.tileLayerMaxZoom}
+            styles={[
+              {
+                elementType: 'labels',
+                stylers: [{ visibility: 'simplified' }],
+              },
+              { featureType: 'poi', stylers: [{ saturation: '-100' }] },
+            ]}
+          />
+        </LayersControl.Overlay>
+      </LayersControl>
+      <MarkerClusterGroup
+        chunkedLoading
+        maxClusterRadius={50}
+        showCoverageOnHover={true}
+        spiderfyOnMaxZoom={false}
+        disableClusteringAtZoom={17}
       >
-        <TileLayer
-          url={initialSetting.tileLayerUrl}
-          maxZoom={initialSetting.tileLayerMaxZoom}
-          attribution={initialSetting.tileLayerAttribution}
-        />
-        <ReactLeafletGoogleLayer
-          useGoogMapsLoader={false}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore:next-line
-          maxZoom={initialSetting.tileLayerMaxZoom}
-          styles={[
-            { elementType: 'labels', stylers: [{ visibility: 'simplified' }] },
-            { featureType: 'poi', stylers: [{ saturation: '-100' }] },
-          ]}
-        />
-        <MarkerClusterGroup
-          chunkedLoading
-          maxClusterRadius={50}
-          showCoverageOnHover={true}
-          spiderfyOnMaxZoom={14}
-          disableClusteringAtZoom={16}
-        >
-          {parkingList}
-        </MarkerClusterGroup>
-        <SearchPlaceBar />
-        <LocationButton />
-        <RestParkingButton
-          checked={showRestParkingLayer}
-          onClick={showshowRestParkingLayer}
-        />
-      </MapContainer>
-    </>
+        {parkingList}
+      </MarkerClusterGroup>
+      <ZoomControl position="bottomright" />
+      <LocationButton position="bottomright" />
+      <SearchPlaceBar position="topleft" />
+      <RestParkingButton
+        checked={showRestParkingLayer}
+        onClick={showshowRestParkingLayer}
+      />
+    </MapContainer>
   )
 }
 

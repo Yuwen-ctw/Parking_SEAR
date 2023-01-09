@@ -1,7 +1,7 @@
 import { Marker, Popup } from 'react-leaflet'
 import parkingIcon from './ParkingIcon'
 import PopupContent from './PopupContent'
-
+import L from 'leaflet'
 const iconColor = {
   green: '#198754',
   yellow: '#ffc107',
@@ -30,7 +30,13 @@ function ParkingMarker({ parking }: ParkingMarkerProp) {
       }}
     >
       {/* offset the position to the top of marker*/}
-      <Popup offset={[0, -25]} minWidth={280} closeButton={false}>
+      <Popup
+        offset={[0, -25]}
+        minWidth={300}
+        closeButton={false}
+        // offset the pop from top
+        autoPanPaddingTopLeft={L.point(0, 100)}
+      >
         <PopupContent parking={parking} />
       </Popup>
     </Marker>

@@ -1,9 +1,10 @@
 import { useMap, CircleMarker } from 'react-leaflet'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import L from 'leaflet'
 import locationSvg from 'assets/location.svg'
+import Control from 'lib/Control'
 
-function LocationButton() {
+function LocationButton({ position }: { position: L.ControlPosition }) {
   const map = useMap()
   const [center, setCenter] = useState<L.LatLngExpression | null>(null)
 
@@ -44,32 +45,20 @@ function LocationButton() {
     timeout: 10000,
   }
 
-  useEffect(() => {
-    // create custom control button
-    const Button = L.Control.extend({
-      onAdd: function () {
-        const button = L.DomUtil.create('button', 'leaflet-bar locationBtn')
-        button.innerHTML = `<img src=${locationSvg} style="width:30px;"/>`
-        button.addEventListener('click', handleGetLocation)
-        return button
-      },
-      onRemove: function () {
-        const button = document.querySelector('.locationBtn')
-        if (button) button.removeEventListener('click', handleGetLocation)
-      },
-    })
-    const button = new Button()
-    button.setPosition('topleft')
-    button.addTo(map)
-
-    return () => {
-      // stop watch location and remove button
-      map.stopLocate()
-      button.remove()
-    }
-  }, [map])
-
-  return center ? <CircleMarker center={center} radius={5} /> : null
+  return (
+    <>
+      <Control position={position} containerKey="location" prepend>
+        <button
+          onClick={handleGetLocation}
+          className="leaflet-bar text-center"
+          style={{ width: '34px', height: '34px', textAlign: 'center' }}
+        >
+          <img src={locationSvg} alt="navigator" className="w-100" />
+        </button>
+      </Control>
+      {center ? <CircleMarker center={center} radius={5} /> : null}
+    </>
+  )
 }
 
 export default LocationButton
