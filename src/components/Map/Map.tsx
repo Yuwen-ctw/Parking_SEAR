@@ -62,6 +62,7 @@ function Map() {
           useGoogMapsLoader={false}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore:next-line
+          maxZoom={initialSetting.tileLayerMaxZoom}
           styles={[
             { elementType: 'labels', stylers: [{ visibility: 'simplified' }] },
             { featureType: 'poi', stylers: [{ saturation: '-100' }] },
