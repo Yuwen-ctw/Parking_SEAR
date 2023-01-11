@@ -2,7 +2,7 @@ import { useMap, CircleMarker } from 'react-leaflet'
 import { useState } from 'react'
 import L from 'leaflet'
 import locationSvg from 'assets/location.svg'
-import Control from 'lib/Control'
+import Control from 'components/Map/Controls/lib/Control'
 
 function LocationButton({ position }: { position: L.ControlPosition }) {
   const map = useMap()

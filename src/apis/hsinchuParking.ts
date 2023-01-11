@@ -1,12 +1,9 @@
 import axios from 'axios'
-import data from 'data/hcParkInfo.json'
 
 async function getHsinChuParking() {
   try {
     console.log('fetch')
-    // const { data } = await axios.get(
-    //   'https://hispark.hccg.gov.tw/OpenData/GetParkInfo'
-    // )
+    const { data } = await axios.get('/api')
     return data
   } catch (err) {
     console.error(`Get HsinChu Parking failed: ${err}`)

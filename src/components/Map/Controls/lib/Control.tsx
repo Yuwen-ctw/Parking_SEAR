@@ -11,6 +11,7 @@ interface Props {
   container?: React.HTMLAttributes<HTMLDivElement>
   prepend?: boolean
   containerKey: string
+  className?: string
 }
 
 const POSITION_CLASSES = {
@@ -49,8 +50,7 @@ const Control = (props: Props): JSX.Element => {
   }, [positionClass, props.prepend, portalRoot, portalContainer])
   //**** code change end ****//
 
-  const className =
-    (props.container?.className?.concat(' ') || '') + 'leaflet-control'
+  const className = (props?.className?.concat(' ') || '') + 'leaflet-control'
   const container = { ...props.container, className }
   const controlContainer = <div {...container}>{props.children}</div>
 

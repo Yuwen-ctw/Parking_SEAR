@@ -29,8 +29,8 @@ function ParkingMarker({ parking }: ParkingMarkerProp) {
         lng: Number(parking.Y_COORDINATE),
       }}
     >
-      {/* offset the position to the top of marker*/}
       <Popup
+        // offset the position to the top of marker
         offset={[0, -25]}
         minWidth={300}
         closeButton={false}

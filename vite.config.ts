@@ -7,10 +7,17 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default ({ mode }) => {
   const config = loadEnv(mode, './')
   return defineConfig({
-    base: '/parking_finder/',
+    // base: '/parking_finder/', // for github page
     plugins: [react(), svgr(), tsconfigPaths()],
     server: {
       port: Number(config.VITE_LOCALPORT),
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3001/data',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
     },
   })
 }

@@ -1,55 +1,53 @@
 import { useState, useEffect } from 'react'
-import {
-  MapContainer,
-  TileLayer,
-  LayersControl,
-  ZoomControl,
-} from 'react-leaflet'
-import ReactLeafletGoogleLayer from 'react-leaflet-google-layer'
+import { MapContainer, ZoomControl, LayersControl } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 import getHsinChuParking from 'apis/hsinchuParking'
 // components
-import SearchPlaceBar from './SearchPlaceBar'
-import LocationButton from './LocationButton'
-import RestParkingButton from './RestParkingButton'
-import ParkingMarker from './CustomMarkers/ParkingMarker'
+import { OpenStreetTileLayer, GoogleTileLayer } from './TileLayers'
+import { SearchPlaceBar, LocationButton, MarkerControl } from './Controls'
+import { ParkingMarker } from './CustomMarkers'
 
 const initialSetting = {
   mapCenter: [24.809487, 120.974726] as L.LatLngExpression,
   mapZoom: 13 as number,
-  tileLayerUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png' as string,
-  tileLayerAttribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' as string,
-  tileLayerMaxZoom: 19 as number,
+  maxZoom: 19 as number,
 }
 
 function Map() {
-  const [parkings, setParkings] = useState<Data[]>([])
-  const [showRestParkingLayer, setShowRestParkingLayer] = useState(false)
+  const [parkingData, setParkingData] = useState<Data[]>([])
+  const [isFilterAvailable, setIsFilterAvailable] = useState<boolean>(false)
+  const [isCluster, setIsCluster] = useState<boolean>(true)
 
   useEffect(() => {
     async function getData() {
       const data = (await getHsinChuParking()) as Data[]
-      setParkings(data)
+      setParkingData(data)
     }
     getData()
   }, [])
 
-  const parkingList = parkings.map((parking) => (
+  const parkingList = parkingData.map((parking) => (
     <ParkingMarker key={parking.PARKNO} parking={parking} />
   ))
 
-  async function showshowRestParkingLayer() {
-    if (showRestParkingLayer) {
+  async function handleToggleFilterBtn() {
+    if (isFilterAvailable) {
+      // refetch data
       const data = (await getHsinChuParking()) as Data[]
-      setParkings(data)
+      setParkingData(data)
     } else {
-      const filterDataList = parkings.filter(
+      // filter data
+      const filterDataList = parkingData.filter(
         (parking) => Number(parking.FREESPACE) > 0
       )
-      setParkings(filterDataList)
+      setParkingData(filterDataList)
     }
-    setShowRestParkingLayer(!showRestParkingLayer)
+    // toggle state
+    setIsFilterAvailable(!isFilterAvailable)
+  }
+
+  function handleToggleClusterBtn() {
+    setIsCluster(!isCluster)
   }
 
   return (
@@ -58,44 +56,34 @@ function Map() {
       zoom={initialSetting.mapZoom}
       className="container-fluid vh-100"
       zoomControl={false}
+      maxZoom={initialSetting.maxZoom}
     >
-      <TileLayer
-        url={initialSetting.tileLayerUrl}
-        maxZoom={initialSetting.tileLayerMaxZoom}
-        attribution={initialSetting.tileLayerAttribution}
-      />
-      <LayersControl position="bottomleft">
-        <LayersControl.Overlay name="GoogleMap">
-          <ReactLeafletGoogleLayer
-            useGoogMapsLoader={false}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore:next-line
-            maxZoom={initialSetting.tileLayerMaxZoom}
-            styles={[
-              {
-                elementType: 'labels',
-                stylers: [{ visibility: 'simplified' }],
-              },
-              { featureType: 'poi', stylers: [{ saturation: '-100' }] },
-            ]}
-          />
-        </LayersControl.Overlay>
+      <LayersControl position="topright">
+        <LayersControl.BaseLayer name="GoogleMap" checked>
+          <GoogleTileLayer />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="OpenStreetMap">
+          <OpenStreetTileLayer />
+        </LayersControl.BaseLayer>
       </LayersControl>
       <MarkerClusterGroup
-        chunkedLoading
-        maxClusterRadius={50}
-        showCoverageOnHover={true}
+        key={isCluster}
+        maxClusterRadius={isCluster ? 50 : 0}
         spiderfyOnMaxZoom={false}
         disableClusteringAtZoom={17}
+        chunkedLoading
       >
         {parkingList}
       </MarkerClusterGroup>
+      <SearchPlaceBar position="topleft" />
       <ZoomControl position="bottomright" />
       <LocationButton position="bottomright" />
-      <SearchPlaceBar position="topleft" />
-      <RestParkingButton
-        checked={showRestParkingLayer}
-        onClick={showshowRestParkingLayer}
+      <MarkerControl
+        position="bottomright"
+        isFilterChecked={isFilterAvailable}
+        isClusterChecked={isCluster}
+        onToggleFilter={handleToggleFilterBtn}
+        onToggleCluster={handleToggleClusterBtn}
       />
     </MapContainer>
   )

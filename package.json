@@ -8,12 +8,14 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "dev-server": "jsonserver --watch --path ./src/data/db.json --port 3001"
   },
   "dependencies": {
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "dayjs": "^1.11.7",
+    "jsonserver": "^0.1.6",
     "leaflet": "^1.9.3",
     "lottie-react": "^2.3.1",
     "react": "^18.2.0",

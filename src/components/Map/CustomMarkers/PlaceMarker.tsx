@@ -1,19 +1,26 @@
-import { Marker } from 'react-leaflet'
-import { useState, useEffect, useRef } from 'react'
-import Lottie from 'lottie-react'
-import placeIconAnimation from 'assets/animateIcon/placeIcon.json'
-import ReactDOM from 'react-dom'
 import L from 'leaflet'
+import ReactDOM from 'react-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import Lottie from 'lottie-react'
+import { Marker, Popup, useMap } from 'react-leaflet'
+import { Button } from 'react-bootstrap'
+import placeIconAnimation from 'assets/animateIcon/placeIcon.json'
 
 interface PlaceMarkerProp {
-  placeLatLng: L.LatLngExpression | null
+  placeResult: {
+    placeName: string
+    placeAddress: string
+    placeLatLng: L.LatLngLiteral
+  }
 }
 
 const PlaceIcon = () => (
   <Lottie animationData={placeIconAnimation} style={{ width: '65px' }} loop />
 )
 
-function PlaceMarker({ placeLatLng }: PlaceMarkerProp) {
+function PlaceMarker({ placeResult }: PlaceMarkerProp) {
+  const map = useMap()
+  const navigatePrefix = 'https://www.google.com.tw/maps/dir'
   const [portalRoot, setPortalRoot] = useState<Element | null>(null)
   const iconContainerRef = useRef<HTMLDivElement>(document.createElement('div'))
 
@@ -23,9 +30,25 @@ function PlaceMarker({ placeLatLng }: PlaceMarkerProp) {
     // if found, inserts the iconContainer
     targetDiv && setPortalRoot(targetDiv)
     portalRoot && portalRoot.append(iconContainerRef.current)
-  }, [placeLatLng, portalRoot])
+  }, [placeResult?.placeLatLng, portalRoot])
 
-  if (!placeLatLng) return null
+  function handleDirectClick(distX: number, distY: number) {
+    event?.preventDefault()
+    if ('geolocation' in navigator) {
+      map.locate({ enableHighAccuracy: true })
+      map.on('locationfound', ({ latlng }) => {
+        window.open(
+          `${navigatePrefix}/${latlng.lat},${latlng.lng}/${distX},${distY}`,
+          '_blank'
+        )
+      })
+      map.on('locationerror', () => alert('無法取得定位資訊'))
+    } else {
+      alert('Sorry, 你的裝置不支援地理位置功能。')
+    }
+  }
+
+  if (!placeResult?.placeLatLng) return null
   return (
     <>
       {
@@ -33,7 +56,7 @@ function PlaceMarker({ placeLatLng }: PlaceMarkerProp) {
         ReactDOM.createPortal(<PlaceIcon />, iconContainerRef.current)
       }
       <Marker
-        position={placeLatLng}
+        position={placeResult.placeLatLng}
         zIndexOffset={1000}
         icon={L.divIcon({
           html: ``,
@@ -41,9 +64,34 @@ function PlaceMarker({ placeLatLng }: PlaceMarkerProp) {
           // iconAnchor attribute should fit the size of icon as possible
           iconAnchor: [33, 44],
         })}
-      />
+      >
+        <Popup
+          // offset the position to the top of marker
+          maxWidth={350}
+          offset={[0, -30]}
+          closeButton={false}
+          // offset the pop from top
+          autoPanPaddingTopLeft={L.point(0, 100)}
+        >
+          <div className="fs-6 fw-bolder text-center">
+            <p className="fs-5 mb-0">{placeResult.placeName}</p>
+            <p className="mb-0">{placeResult.placeAddress}</p>
+            <Button
+              variant="link"
+              onClick={() =>
+                handleDirectClick(
+                  placeResult.placeLatLng.lat,
+                  placeResult.placeLatLng.lng
+                )
+              }
+            >
+              開始導航
+            </Button>
+          </div>
+        </Popup>
+      </Marker>
     </>
   )
 }
 
-export default PlaceMarker
+export default React.memo(PlaceMarker)
