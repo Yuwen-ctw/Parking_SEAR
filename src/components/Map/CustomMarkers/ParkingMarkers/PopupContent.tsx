@@ -1,26 +1,7 @@
-import { useMap } from 'react-leaflet'
 import { Container, Col, Row, Stack, Button } from 'react-bootstrap'
 import dayjs from 'dayjs'
 
-function PopupContent({ parking }: PopupContentProps) {
-  const map = useMap()
-  const navigatePrefix = 'https://www.google.com.tw/maps/dir'
-
-  function handleDirectClick(distX: string, distY: string) {
-    event?.preventDefault()
-    if ('geolocation' in navigator) {
-      map.locate({ enableHighAccuracy: true })
-      map.on('locationfound', ({ latlng }) => {
-        window.open(
-          `${navigatePrefix}/${latlng.lat},${latlng.lng}/${distX},${distY}`,
-          '_blank'
-        )
-      })
-      map.on('locationerror', () => alert('無法取得定位資訊'))
-    } else {
-      alert('Sorry, 你的裝置不支援地理位置功能。')
-    }
-  }
+function PopupContent({ parking, onClick }: PopupContentProps) {
   return (
     <Container className="p-0 fs-6 text-center">
       <Stack gap={2}>
@@ -80,9 +61,7 @@ function PopupContent({ parking }: PopupContentProps) {
         </Row>
         <Row className="justify-content-center">
           <Button
-            onClick={() =>
-              handleDirectClick(parking.X_COORDINATE, parking.Y_COORDINATE)
-            }
+            onClick={() => onClick(parking.X_COORDINATE, parking.Y_COORDINATE)}
             variant="link"
           >
             開始導航
@@ -97,6 +76,7 @@ export default PopupContent
 
 interface PopupContentProps {
   parking: Data
+  onClick: (distX: string, distY: string) => void
 }
 
 type Data = {

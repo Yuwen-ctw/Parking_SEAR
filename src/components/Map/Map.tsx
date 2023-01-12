@@ -6,6 +6,7 @@ import getHsinChuParking from 'apis/hsinchuParking'
 import { OpenStreetTileLayer, GoogleTileLayer } from './TileLayers'
 import { SearchPlaceBar, LocationButton, MarkerControl } from './Controls'
 import { ParkingMarker } from './CustomMarkers'
+import Swal from 'sweetalert2'
 
 const initialSetting = {
   mapCenter: [24.809487, 120.974726] as L.LatLngExpression,
@@ -22,6 +23,7 @@ function Map() {
     async function getData() {
       const data = (await getHsinChuParking()) as Data[]
       setParkingData(data)
+      toast('顯示所有停車場')
     }
     getData()
   }, [])
@@ -30,7 +32,7 @@ function Map() {
     <ParkingMarker key={parking.PARKNO} parking={parking} />
   ))
 
-  async function handleToggleFilterBtn() {
+  async function handleToggleFilter() {
     if (isFilterAvailable) {
       // refetch data
       const data = (await getHsinChuParking()) as Data[]
@@ -44,25 +46,27 @@ function Map() {
     }
     // toggle state
     setIsFilterAvailable(!isFilterAvailable)
+    toast(isFilterAvailable ? '顯示所有停車場' : '隱藏滿位停車場')
   }
 
   function handleToggleClusterBtn() {
     setIsCluster(!isCluster)
+    toast(isCluster ? '展開標記' : '群組標記')
   }
 
   return (
     <MapContainer
       center={initialSetting.mapCenter}
       zoom={initialSetting.mapZoom}
-      className="container-fluid vh-100"
+      className="vh-100"
       zoomControl={false}
       maxZoom={initialSetting.maxZoom}
     >
       <LayersControl position="topright">
-        <LayersControl.BaseLayer name="GoogleMap" checked>
+        <LayersControl.BaseLayer name="GoogleMap">
           <GoogleTileLayer />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="OpenStreetMap">
+        <LayersControl.BaseLayer name="OpenStreetMap" checked>
           <OpenStreetTileLayer />
         </LayersControl.BaseLayer>
       </LayersControl>
@@ -82,7 +86,7 @@ function Map() {
         position="bottomright"
         isFilterChecked={isFilterAvailable}
         isClusterChecked={isCluster}
-        onToggleFilter={handleToggleFilterBtn}
+        onToggleFilter={handleToggleFilter}
         onToggleCluster={handleToggleClusterBtn}
       />
     </MapContainer>
@@ -90,6 +94,18 @@ function Map() {
 }
 
 export default Map
+
+function toast(message: string) {
+  Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 1800,
+    width: 200,
+    padding: 0,
+    html: `<p class='text-center p-0 m-0' >${message}</p>`,
+  }).fire()
+}
 
 type Data = {
   PARKNO: string

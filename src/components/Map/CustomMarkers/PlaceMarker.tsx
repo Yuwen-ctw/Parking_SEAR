@@ -36,13 +36,13 @@ function PlaceMarker({ placeResult }: PlaceMarkerProp) {
     event?.preventDefault()
     if ('geolocation' in navigator) {
       map.locate({ enableHighAccuracy: true })
-      map.on('locationfound', ({ latlng }) => {
+      map.once('locationfound', ({ latlng }) => {
         window.open(
           `${navigatePrefix}/${latlng.lat},${latlng.lng}/${distX},${distY}`,
           '_blank'
         )
       })
-      map.on('locationerror', () => alert('無法取得定位資訊'))
+      map.once('locationerror', () => alert('無法取得定位資訊'))
     } else {
       alert('Sorry, 你的裝置不支援地理位置功能。')
     }

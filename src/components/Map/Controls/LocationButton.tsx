@@ -1,7 +1,7 @@
 import { useMap, CircleMarker } from 'react-leaflet'
 import { useState } from 'react'
 import L from 'leaflet'
-import locationSvg from 'assets/location.svg'
+import { ReactComponent as LocationSvg } from 'assets/location.svg'
 import Control from 'components/Map/Controls/lib/Control'
 
 function LocationButton({ position }: { position: L.ControlPosition }) {
@@ -11,8 +11,8 @@ function LocationButton({ position }: { position: L.ControlPosition }) {
   function handleGetLocation(): void {
     if ('geolocation' in navigator) {
       map.locate(getLocationOptions)
-      map.on('locationfound', getLocationSuccess)
-      map.on('locationerror', getLocationError)
+      map.once('locationfound', getLocationSuccess)
+      map.once('locationerror', getLocationError)
     } else {
       alert('Sorry, 你的裝置不支援地理位置功能。')
     }
@@ -50,13 +50,12 @@ function LocationButton({ position }: { position: L.ControlPosition }) {
       <Control position={position} containerKey="location" prepend>
         <button
           onClick={handleGetLocation}
-          className="leaflet-bar text-center"
-          style={{ width: '34px', height: '34px', textAlign: 'center' }}
+          className="leaflet-bar text-center p-0"
         >
-          <img src={locationSvg} alt="navigator" className="w-100" />
+          <LocationSvg width="30px" height="30px" />
         </button>
       </Control>
-      {center ? <CircleMarker center={center} radius={5} /> : null}
+      {center ? <CircleMarker center={center} radius={10} /> : null}
     </>
   )
 }
