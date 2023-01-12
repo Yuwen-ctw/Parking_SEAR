@@ -10,6 +10,7 @@ export default ({ mode }) => {
     // base: '/parking_finder/', // for github page
     plugins: [react(), svgr(), tsconfigPaths()],
     server: {
+      host: '0.0.0.0',
       port: Number(config.VITE_LOCALPORT),
       proxy: {
         '/api': {

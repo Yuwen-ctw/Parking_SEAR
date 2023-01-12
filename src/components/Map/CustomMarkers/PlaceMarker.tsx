@@ -39,7 +39,7 @@ function PlaceMarker({ placeResult }: PlaceMarkerProp) {
       map.once('locationfound', ({ latlng }) => {
         window.open(
           `${navigatePrefix}/${latlng.lat},${latlng.lng}/${distX},${distY}`,
-          '_blank'
+          L.Browser.safari ? '_top' : '_blank'
         )
       })
       map.once('locationerror', () => alert('無法取得定位資訊'))

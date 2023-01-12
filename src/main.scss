@@ -13,6 +13,11 @@
   font-size: 0.875rem;
 }
 
+.vh-100 {
+  // for safari
+  max-height: -webkit-fill-available;
+}
+
 .slide-in {
   position: relative;
   animation: slide-in 0.3s linear;
