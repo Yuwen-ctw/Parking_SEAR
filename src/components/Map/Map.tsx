@@ -63,10 +63,10 @@ function Map() {
       maxZoom={initialSetting.maxZoom}
     >
       <LayersControl position="topright">
-        <LayersControl.BaseLayer name="GoogleMap">
+        <LayersControl.BaseLayer name="GoogleMap" checked>
           <GoogleTileLayer />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="OpenStreetMap" checked>
+        <LayersControl.BaseLayer name="OpenStreetMap">
           <OpenStreetTileLayer />
         </LayersControl.BaseLayer>
       </LayersControl>
