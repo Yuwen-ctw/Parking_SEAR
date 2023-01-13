@@ -1,7 +1,9 @@
+import React from 'react'
 import { Marker, Popup, useMap } from 'react-leaflet'
 import parkingIcon from './ParkingIcon'
 import PopupContent from './PopupContent'
 import L from 'leaflet'
+
 const iconColor = {
   green: '#198754',
   yellow: '#ffc107',
@@ -62,7 +64,7 @@ function ParkingMarker({ parking }: ParkingMarkerProp) {
   )
 }
 
-export default ParkingMarker
+export default React.memo(ParkingMarker)
 
 type Data = {
   PARKNO: string

@@ -2,14 +2,17 @@ import { useMap, CircleMarker } from 'react-leaflet'
 import { useState } from 'react'
 import L from 'leaflet'
 import { ReactComponent as LocationSvg } from 'assets/location.svg'
-import Control from 'components/Map/Controls/lib/Control'
+import Control from 'components/Map/Controls/base/Control'
 
 function LocationButton({ position }: { position: L.ControlPosition }) {
   const map = useMap()
+  const [disabled, setDisable] = useState(false)
   const [center, setCenter] = useState<L.LatLngExpression | null>(null)
 
   function handleGetLocation(): void {
     if ('geolocation' in navigator) {
+      setDisable(true)
+      setTimeout(() => setDisable(false), 2000)
       map.locate(getLocationOptions)
       map.once('locationfound', getLocationSuccess)
       map.once('locationerror', getLocationError)
@@ -19,7 +22,6 @@ function LocationButton({ position }: { position: L.ControlPosition }) {
   }
 
   function getLocationSuccess(result: L.LocationEvent): void {
-    console.log(result.accuracy)
     setCenter(result.latlng)
     map.flyTo(result.latlng, undefined, { duration: 0.5 })
   }
@@ -49,8 +51,11 @@ function LocationButton({ position }: { position: L.ControlPosition }) {
     <>
       <Control position={position} containerKey="location" prepend>
         <button
+          disabled={disabled}
           onClick={handleGetLocation}
-          className="leaflet-bar text-center p-0"
+          className={`leaflet-bar text-center p-0 ${
+            disabled ? 'disabled' : 'bg-light'
+          }`}
         >
           <LocationSvg width="30px" height="30px" />
         </button>
