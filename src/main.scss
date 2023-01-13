@@ -32,14 +32,53 @@
   }
 }
 
-/* controller */
+.spinner__container {
+  position: absolute;
+  height: 100vh;
+  z-index: 1001; // the highest value for now
+  background: rgba(255, 255, 255, 0.25);
+  .spinner__dataLoading {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+  }
+}
+
+/* map controller */
 .leaflet-bar {
+  position: relative;
   cursor: pointer;
   &:hover {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
   }
   &:active {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25) inset;
+  }
+  &.disabled {
+    background-color: white;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      line-height: 30px;
+      animation: countBackwards 2.7s linear;
+      font-size: 1.4rem;
+      color: gray;
+      @keyframes countBackwards {
+        0% {
+          content: '2';
+        }
+        50% {
+          content: '1';
+        }
+        to {
+          content: '';
+        }
+      }
+    }
+    svg {
+      fill: rgba(0, 0, 0, 0.25);
+    }
   }
 }
 

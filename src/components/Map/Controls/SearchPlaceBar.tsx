@@ -5,7 +5,7 @@ import GooglePlacesAutocomplete, {
   geocodeByPlaceId,
   getLatLng,
 } from 'react-google-places-autocomplete'
-import Control from 'components/Map/Controls/lib/Control'
+import Control from 'components/Map/Controls/base/Control'
 import { PlaceMarker } from 'components/Map/CustomMarkers'
 import { ReactComponent as SearchIcon } from 'assets/search.svg'
 import useOnclickOutside from 'react-cool-onclickoutside'
