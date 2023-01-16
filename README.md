@@ -70,17 +70,18 @@ npm install
 
 5.啟動提供測試資料的伺服器
 
-（欲使用即時資料者，請參考 <a href="https://data.gov.tw/license">政府資料開放授權條款</a> 並取得API後，至 vite.config.ts 替換 proxy 中的所有 target 欄位 ）
-
 ```
 npm run dev-server
 ```
 
-6.啟動專案
+欲採用即時資料者，請忽略此步驟，參考 <a href="https://data.gov.tw/license">政府資料開放授權條款</a> 並取得API後，至 vite.config.ts 替換 proxy 中的所有 target 欄位 
+
+6.啟動專案: 若有啟動測試資料伺服器者，須打開第二個終端機並進入本專案資料夾，輸入以下指令
 ```
 npm run dev
 ```
 成功後請參考終端機訊息並造訪指定網址，預設網址為 http://127.0.0.1:5173
+
 
 <br/>
 
