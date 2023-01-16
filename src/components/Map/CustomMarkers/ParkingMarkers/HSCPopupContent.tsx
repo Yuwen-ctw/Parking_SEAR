@@ -1,9 +1,13 @@
 import { Container, Col, Row, Stack, Button } from 'react-bootstrap'
+import { HSCDataType } from './DataTypes'
 import dayjs from 'dayjs'
 
-function PopupContent({ parking, onClick }: PopupContentProps) {
+function HSCPopupContent({ parking }: PopupContentProps) {
   return (
-    <Container className="p-0 fs-6 text-center">
+    <Container
+      className="p-0 fs-6 text-center"
+      data-coords={`${parking.X_COORDINATE},${parking.Y_COORDINATE}`}
+    >
       <Stack gap={2}>
         <Row className="fw-bold fs-5 justify-content-center">
           {parking.PARKINGNAME}
@@ -29,12 +33,12 @@ function PopupContent({ parking, onClick }: PopupContentProps) {
         <Row className={`${parking.TOTALSPACEDIS === 0 && 'd-none'}`}>
           <ColTitle>身障</ColTitle>
           <ColAmount>{parking.TOTALSPACEDIS}</ColAmount>
-          <ColAmount>{parking.FREESPACEDIS}</ColAmount>
+          <ColAmount></ColAmount>
         </Row>
         <Row className={`${parking.TOTALSPACECW === 0 && 'd-none'}`}>
           <ColTitle>婦幼</ColTitle>
           <ColAmount>{parking.TOTALSPACECW}</ColAmount>
-          <ColAmount>{parking.FREESPACECW}</ColAmount>
+          <ColAmount></ColAmount>
         </Row>
         <Row className={`${parking.TOTALSPACEECAR === 0 && 'd-none'}`}>
           <ColTitle>電動</ColTitle>
@@ -61,7 +65,8 @@ function PopupContent({ parking, onClick }: PopupContentProps) {
         </Row>
         <Row className="justify-content-center">
           <Button
-            onClick={() => onClick(parking.X_COORDINATE, parking.Y_COORDINATE)}
+            className="w-auto"
+            onClick={() => event?.preventDefault()}
             variant="link"
           >
             開始導航
@@ -72,35 +77,10 @@ function PopupContent({ parking, onClick }: PopupContentProps) {
   )
 }
 
-export default PopupContent
+export default HSCPopupContent
 
 interface PopupContentProps {
-  parking: Data
-  onClick: (distX: string, distY: string) => void
-}
-
-type Data = {
-  PARKNO: string
-  PARKINGNAME: string
-  ADDRESS: string
-  BUSINESSHOURS: string
-  WEEKDAYS: string
-  HOLIDAY: string
-  FREESPACEBIG: number
-  TOTALSPACEBIG: number
-  FREESPACE: number
-  TOTALSPACE: number
-  FREESPACEMOT: number
-  TOTALSPACEMOT: number
-  FREESPACEDIS: number
-  TOTALSPACEDIS: number
-  FREESPACECW: number
-  TOTALSPACECW: number
-  FREESPACEECAR: number
-  TOTALSPACEECAR: number
-  X_COORDINATE: string
-  Y_COORDINATE: string
-  UPDATETIME: string
+  parking: HSCDataType
 }
 
 // Base components
@@ -122,5 +102,12 @@ function ColAmount({ children, className }: componentsProps) {
 }
 
 function ColMuted({ children, className }: componentsProps) {
-  return <Col className={`text-muted fs-7 ${className}`}>{children}</Col>
+  return (
+    <Col
+      className={`text-muted fs-7 ${className}`}
+      style={{ maxHeight: '75px', overflowY: 'auto' }}
+    >
+      {children}
+    </Col>
+  )
 }

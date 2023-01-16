@@ -12,10 +12,20 @@ export default ({ mode }) => {
     server: {
       port: Number(config.VITE_LOCALPORT),
       proxy: {
-        '/api': {
-          target: 'http://localhost:3001/hsdata',
+        '/api-hsc': {
+          target: 'http://localhost:3001/hscdata',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/api-hsc/, ''),
+        },
+        '/api-tpeInfo': {
+          target: 'http://localhost:3001/tpeInfo',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api-tpeInfo/, ''),
+        },
+        '/api-tpeData': {
+          target: 'http://localhost:3001/tpeData',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api-tpeData/, ''),
         },
       },
     },
